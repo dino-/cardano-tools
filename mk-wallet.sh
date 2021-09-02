@@ -13,6 +13,10 @@ usage:
 options:
   -h, --help  This help information
 
+This script is expecting to find a working cardano-cli binary either in the
+CARDANO_CLI environment variable or on the PATH. It also requires a
+TESTNET_MAGIC_NUM variable set in the environment.
+
 When successful the following files will be produced
 
     WALLET_DIR/WALLET_NAME.addr
