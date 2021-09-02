@@ -21,7 +21,7 @@ When successful the following files will be produced
     WALLET_DIR/WALLET_NAME.stake.skey
     WALLET_DIR/WALLET_NAME.stake.vkey
 
-v1.0  2021-09-01  Dino Morelli <dino@ui3.info>
+v1.1  2021-09-02  Dino Morelli <dino@ui3.info>
 
 USAGE
 )
@@ -75,18 +75,21 @@ cd "$walletDir" || die 1 "Can't change directory to $walletDir"
 
 set -e
 
+# Support either an explicit env variable or the cardano CLI tool on the PATH
+cardanoCli=${CARDANO_CLI:=cardano-cli}
+
 # Create a payment key pair
-${CARDANO_CLI:-cardano-cli} address key-gen \
+$cardanoCli address key-gen \
   --verification-key-file "${walletName}.payment.vkey" \
   --signing-key-file "${walletName}.payment.skey"
 
 # Create a stake key pair
-${CARDANO_CLI:-cardano-cli} stake-address key-gen \
+$cardanoCli stake-address key-gen \
   --verification-key-file "${walletName}.stake.vkey" \
   --signing-key-file "${walletName}.stake.skey"
 
 # Create a payment address
-${CARDANO_CLI:-cardano-cli} address build \
+$cardanoCli address build \
   --testnet-magic "$TESTNET_MAGIC_NUM" \
   --payment-verification-key-file "${walletName}.payment.vkey" \
   --stake-verification-key-file "${walletName}.stake.vkey" \
