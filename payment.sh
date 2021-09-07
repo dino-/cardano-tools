@@ -10,7 +10,7 @@ walletDir=${CARDANO_WALLET_DIR:?ERROR, this environment variable is not set}
 walletFrom=$1
 walletTo=$2
 lovelace=$3
-shift ; shift ; shift
+shift 3
 txIn=$(printf " --tx-in %s" "$@")
 
 [ -d "$walletDir" ] || { echo "Directory $walletDir doesn't exist!"; exit 1; }
