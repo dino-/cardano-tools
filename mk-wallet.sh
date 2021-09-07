@@ -8,24 +8,24 @@ usage=$(cat <<USAGE
 Helper script for generating Cardano wallet key and address files
 
 usage:
-  $basename [OPTIONS] WALLET_DIR WALLET_NAME
+  $basename [OPTIONS] WALLET_NAME
 
 options:
   -h, --help  This help information
 
 This script is expecting to find a working cardano-cli binary either in the
-CARDANO_CLI environment variable or on the PATH. It also requires a
-TESTNET_MAGIC_NUM variable set in the environment.
+CARDANO_CLI environment variable or on the PATH. It also requires
+TESTNET_MAGIC_NUM and CARDANO_WALLET_DIR variables set in the environment.
 
 When successful the following files will be produced
 
-    WALLET_DIR/WALLET_NAME.addr
-    WALLET_DIR/WALLET_NAME.payment.skey
-    WALLET_DIR/WALLET_NAME.payment.vkey
-    WALLET_DIR/WALLET_NAME.stake.skey
-    WALLET_DIR/WALLET_NAME.stake.vkey
+    CARDANO_WALLET_DIR/WALLET_NAME.addr
+    CARDANO_WALLET_DIR/WALLET_NAME.payment.skey
+    CARDANO_WALLET_DIR/WALLET_NAME.payment.vkey
+    CARDANO_WALLET_DIR/WALLET_NAME.stake.skey
+    CARDANO_WALLET_DIR/WALLET_NAME.stake.vkey
 
-v1.1  2021-09-02  Dino Morelli <dino@ui3.info>
+v1.2  2021-09-07  Dino Morelli <dino@ui3.info>
 
 USAGE
 )
@@ -63,14 +63,14 @@ done
 
 $optHelp && die 0 "$usage"
 
-if [ $# -lt 2 ]
+if [ $# -lt 1 ]
 then
   warn "Incorrect number of arguments"
   die 1 "$usage"
 fi
 
-walletDir="$1"
-walletName="$2"
+walletDir=${CARDANO_WALLET_DIR:?ERROR, this environment variable is not set}
+walletName="$1"
 
 [ -z "$TESTNET_MAGIC_NUM" ] \
   && die 1 "Can't continue because the TESTNET_MAGIC_NUM environment variable is not set"

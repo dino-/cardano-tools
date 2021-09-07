@@ -2,15 +2,15 @@
 
 basename=$(basename "$0")
 
-usage="Usage: $basename WALLET_DIR FROM_WALLET TX_IN LOVELACE_AMT TO_WALLET"
+usage="Usage: $basename FROM_WALLET TX_IN LOVELACE_AMT TO_WALLET"
 
-[[ $# -lt 5 ]] && { echo "$usage"; exit 1; }
+[[ $# -lt 4 ]] && { echo "$usage"; exit 1; }
 
-walletDir=$1
-walletFrom=$2
-txIn=$3
-lovelace=$4
-walletTo=$5
+walletDir=${CARDANO_WALLET_DIR:?ERROR, this environment variable is not set}
+walletFrom=$1
+txIn=$2
+lovelace=$3
+walletTo=$4
 
 [ -d "$walletDir" ] || { echo "Directory $walletDir doesn't exist!"; exit 1; }
 
